@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<jsp:include page="top.jsp" flush="false"/>
+
 
 <div class="container">
   <h2>맛집 리스트</h2>
