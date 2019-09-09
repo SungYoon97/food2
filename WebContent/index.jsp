@@ -26,7 +26,10 @@
       <a class="nav-link" href="print.jsp">전체 맛집</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">맛집 추천</a>
+      <a class="nav-link" href="random.jsp">맛집 추천</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="star.jsp">평가 하기</a>
     </li>
   </ul>
   

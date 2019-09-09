@@ -1,3 +1,4 @@
+<%@page import="java.util.Random"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="food2.FoodVO"%>
 <%@page import="java.sql.ResultSet"%>
@@ -11,9 +12,6 @@
 
 <%
 
-String ob= request.getParameter("orderby");//오름차순
-System.out.println(ob);
-
 //위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
@@ -24,18 +22,8 @@ try {
 	Context init = new InitialContext();
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
-	String sql=null;
-	boolean isDesc = false;
 	
-	if(ob==null){
-	//오름차순
-	
-	sql = "SELECT * FROM food  ORDER BY price desc ";
-	
-	}else{
-	//내림차순
-		sql = "SELECT * FROM food  ORDER BY price asc ";
-	}
+	String sql = "select * from food";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	ResultSet rs = pstmt.executeQuery();
 	
@@ -65,50 +53,45 @@ if (connect == true) {
 	System.out.println("연결실패.");
 }	
 
+
+//랜덤
+
+Random rnd =new Random();
+int rNum = rnd.nextInt(list.size());
+System.out.println("list 총 갯수:" +list.size());
+System.out.println("랜덤값:" +rNum);
+
+
+FoodVO vo=list.get(rNum);
+System.out.println(vo.getMenu());
+
+
+
 %>    
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>전체 맛집</title>
+  <title>맛집 추천</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-
-	<script>						
-	$(document).ready(function(){	
-	$('#menuname').click(function(){								
-			alert($(this).text());
-		});				
-	});					
-
-	function getMenuName(name) {
-		alert(name);
-	}
-	
-	</script>				
-
 </head>
 <body>
 <jsp:include page="top.jsp" flush="false"/>
 
 <div class="container">
-  <h2>맛집 리스트</h2>
+  <h2>맛집추천</h2>
   <table class="table">
     <thead>
       <tr>
         <th>가게이름</th>
         <th>메뉴</th>
         <th>원산지</th>
-        <%	if(ob==null){ %>
-        <th>가격<a href="print.jsp?orderby=1">↑</a></th>
-        <%}else {%>
-        <th>가격<a href="print.jsp">↓</a></th>
-        <%}%>
+        <th>가격</th>
         <th>위치</th>
         <th>별점</th>
         <th>전화번호</th>
@@ -116,10 +99,10 @@ if (connect == true) {
       </tr>
     </thead>
     <tbody>
-    <%for (FoodVO vo : list) { %>
+    
       <tr class="table-dark text-dark">
         <td><%=vo.getName() %></td>
-        <td><a href="#" onclick="getMenuName('<%=vo.getMenu() %>')"> <%=vo.getMenu() %></a></td>
+        <td><%=vo.getMenu() %></td>
         <td><%=vo.getHome() %> </td>
         <td><%=vo.getPrice() %></td>
         <td><%=vo.getLoc() %></td>
@@ -127,7 +110,7 @@ if (connect == true) {
         <td><%=vo.getTel() %></td>
         <td><%=vo.getTime() %></td>
       </tr>      
-  	<% } %>
+
     </tbody>
   </table>
 </div>

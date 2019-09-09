@@ -21,7 +21,7 @@
       <a class="nav-link" href="print.jsp">전체맛집</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">맛집추천</a>
+      <a class="nav-link" href="random.jsp">맛집추천</a>
     </li>
   </ul>
    <form class="form-inline" action="/action_page.php">

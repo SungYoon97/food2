@@ -3,6 +3,7 @@ package food2;
 public class FoodVO {
 	private String name;
 	private String menu;
+	private String home;
 	private String price;
 	private String loc;
 	private String star;
@@ -19,6 +20,12 @@ public class FoodVO {
 	}
 	public void setMenu(String menu) {
 		this.menu = menu;
+	}
+	public String getHome() {
+		return home;
+	}
+	public void setHome(String home) {
+		this.home = home;
 	}
 	public String getPrice() {
 		return price;
@@ -50,4 +57,6 @@ public class FoodVO {
 	public void setTime(String time) {
 		this.time = time;
 	}
+
+	
 }
