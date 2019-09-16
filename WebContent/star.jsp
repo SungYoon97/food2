@@ -62,7 +62,7 @@ $(document).ready(function(){
     Open modal
   </button>
 
-  <!-- The Modal -->
+  <!-- The Modal 시작 -->
   <div class="modal" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -75,12 +75,13 @@ $(document).ready(function(){
         
         <!-- Modal body -->
         <div class="modal-body">
-    	 <div class="starRev">						
-		<span class="starR on">1</span>						
-		<span class="starR">2</span>						
-		<span class="starR">3</span>						
-		<span class="starR">4</span>						
-		<span class="starR">5</span>						
+        	<p id="m_menuname"></p>
+    	 		<div class="starRev">						
+				<span class="starR on">1</span>						
+				<span class="starR">2</span>						
+				<span class="starR">3</span>						
+				<span class="starR">4</span>						
+				<span class="starR">5</span>						
 		</div>	
             
         </div>
@@ -88,12 +89,13 @@ $(document).ready(function(){
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="submit">평가하기</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-danger" onclick="modal">취소</button>
         </div>
         
       </div>
     </div>
   </div>
-  				
+<!--  모달 끝 -->				
+
 </body>						
 </html>						

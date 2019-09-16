@@ -15,13 +15,13 @@
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="insert.jsp">맛집추가</a>
+      <a class="nav-link" href="insert.jsp">맛집 추가</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="print.jsp">전체맛집</a>
+      <a class="nav-link" href="p2.jsp">전체 맛집</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="random.jsp">맛집추천</a>
+      <a class="nav-link" href="random.jsp">맛집 추천</a>
     </li>
   </ul>
    <form class="form-inline" action="/action_page.php">

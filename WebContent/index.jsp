@@ -42,9 +42,43 @@
 <div class="container-fluid">
   <h3>4학사</h3>
   <p>맛집을 추천 드려요~</p>
-     <img alt="" src="http://cafefiles.naver.net/MjAxODAzMTNfMTkz/MDAxNTIwOTAwNjMyMjgz.wIK25F8sBmzw7LAlRlBwi_jUHRhBLxXnWONloMbRCJog.4vhA0qQNVKPgYpaNDl_pHpdHWvBBv8mYwKLx1pqoNZAg.JPEG.34173a2c/externalFile.jpg">
+     <img alt="" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzA3MDZfMjc2%2FMDAxNDk5MzEyNTk2ODg3.UziuOOusBsgrOF_l-KBI9Rn4YyDqDFR1XAr46pNDNq4g.mExJgGXk_DmkTbR4jk1siGPy4dLcEpxGy63MTqZFiYcg.JPEG.noxio4%2FNaverBlog_20170706_124316_06.jpg&type=b400">
 
 </div>
+
+ <!-- The Modal 시작 -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">평가하기</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+    	 <div class="starRev">						
+		<span class="starR on">1</span>						
+		<span class="starR">2</span>						
+		<span class="starR">3</span>						
+		<span class="starR">4</span>						
+		<span class="starR">5</span>						
+		</div>	
+            
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="submit">평가하기</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<!--  모달 끝 -->		
 
 </body>
 </html>
