@@ -20,7 +20,7 @@
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="insert.jsp">맛집 추가</a>
+      <a class="nav-link" href="store.jsp">맛집 추가</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="print.jsp">전체 맛집</a>

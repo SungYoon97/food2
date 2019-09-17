@@ -1,4 +1,5 @@
-<%@page import="food2.StoreVO"%>
+<%@page import="food2.MenuVO"%>										
+<%@page import="food2.StoreVO"%>										
 <%@page import="java.util.ArrayList"%>										
 <%@page import="food2.FoodVO"%>										
 <%@page import="java.sql.ResultSet"%>										
@@ -10,16 +11,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"										
 	pageEncoding="UTF-8"%>									
 										
-<%				
-	String s_id = request.getParameter("s_id");
+<%										
+	String s_id =request.getParameter("s_id");									
 	String ob = request.getParameter("orderby");//오름차순									
-	System.out.println(ob);									
+	//System.out.println(ob);									
 										
 	//위 데이터를 데이터 베이스에 넣기									
 	Connection conn = null;									
 	Boolean connect = false;									
 										
-	ArrayList<StoreVO> list = new ArrayList<>();									
+	ArrayList<MenuVO> list = new ArrayList<>();									
 										
 	try {									
 		Context init = new InitialContext();								
@@ -31,22 +32,21 @@
 		if (ob == null) {								
 			//오름차순							
 										
-			sql = "SELECT * FROM store  ORDER BY name desc ";							
+			sql = "SELECT * FROM menu WHERE s_id=? ORDER BY price desc ";							
 										
 		} else {								
 			//내림차순							
-			sql = "SELECT * FROM store  ORDER BY name asc ";							
+			sql = "SELECT * FROM menu WHERE s_id=? ORDER BY price asc ";							
 		}								
 		PreparedStatement pstmt = conn.prepareStatement(sql);								
+		pstmt.setString(1,s_id);								
 		ResultSet rs = pstmt.executeQuery();								
 										
 		while (rs.next()) {								
-			StoreVO vo = new StoreVO();							
-			vo.setId(rs.getInt("id"));																											
-			vo.setName(rs.getString("name"));
-			vo.setLoc(rs.getString("loc"));														
-			vo.setTel(rs.getString("tel"));							
-			vo.setTime(rs.getString("time"));							
+			MenuVO vo = new MenuVO();							
+			vo.setId(rs.getInt("id"));							
+			vo.setName(rs.getString("name"));							
+			vo.setPrice(rs.getString("price"));							
 			list.add(vo);							
 		}								
 										
@@ -81,57 +81,58 @@
 										
 										
 <style>										
-	.starR {									
-	background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;									
+.starR {										
+	background:									
+		url('http://miuu227.godohosting.com/images/icon/ico_review.png')								
+		no-repeat right 0;								
 	background-size: auto 100%;									
 	width: 30px;									
 	height: 30px;									
 	display: inline-block;									
 	text-indent: -9999px;									
 	cursor: pointer;									
-	}									
-	.starR.on{background-position:0 0;}									
-</style>										
-<script>		
-	$(document).ready(function() {									
-		var score= 5;									
+}										
 										
-		$('.starRev span').click(function(){								
+.starR.on {										
+	background-position: 0 0;									
+}										
+</style>										
+<script>										
+	$(document).ready(function() {									
+		var score = 5;								
+										
+		$('.starRev span').click(function() {								
 			console.log('asdf');							
 			$(this).parent().children('span').removeClass('on');							
 			$(this).addClass('on').prevAll('span').addClass('on');							
 										
 			console.log($(this).addClass('on').text());							
-			score=$(this).addClass('on').text();							
+			score = $(this).addClass('on').text();							
 										
 			return false;							
+		});								
+										
+		$("#submit").click(function() {								
+			$.post("star_proc.jsp", {							
+				menu : $('#m_menuname').text(),						
+				star : score						
+			}, function(data, status) {							
+				alert("Data: " + data + "\nStatus: " + status);						
+				modalClose();						
 			});							
-										
-		$("#submit").click(function(){								
-		$.post("star_proc.jsp",								
-		{								
-		menu: $('#m_menuname').text(),								
-		star: score								
-		},								
-		function(data,status){								
-		alert("Data: " + data + "\nStatus: " + status);		
-		
-		modalClose();
 		});								
-		});								
-										
 										
 	});									
 										
 	function getMenuName(name) {									
-		//alert(name);		
-		$('#m_menuname').text(name);		
+		//alert(name);								
+		$('#m_menuname').text(name);								
 		$('#myModal').show();								
 										
 	}									
-	function modalClose(){
-		location.reload();
-		$('#myModal').hide();								
+	function modalClose() {									
+		location.reload();								
+		//$('#myModal').hide();								
 	}									
 </script>										
 										
@@ -140,36 +141,35 @@
 	<jsp:include page="top.jsp" flush="false" />									
 										
 	<div class="container">									
-		<h2>맛집 리스트</h2>								
+		<h2>전체맛집</h2>								
 		<table class="table">								
 			<thead>							
-				<tr>											
+				<tr>						
+										
 					<%					
 						if (ob == null) {				
 					%>					
-					<th>가게이름<a href="print.jsp?orderby=1">↑</a></th>					
+					<th>메뉴이름<a href="menu.jsp?s_id=<%=s_id %>&orderby=1">↑</a></th>					
 					<%					
 						} else {				
 					%>					
-					<th>가게이름<a href="print.jsp">↓</a></th>					
+					<th>메뉴이름<a href="menu.jsp?s_id=<%=s_id %>">↓</a></th>					
 					<%					
 						}				
 					%>					
-					<th>위치</th>					
-					<th>별점</th>					
+					<th>가격</th>					
 					<th>전화번호</th>					
 					<th>영업시간</th>					
 				</tr>						
 			</thead>							
 			<tbody>							
 				<%						
-					for (StoreVO vo : list) {					
+					for (MenuVO vo : list) {					
 				%>						
 				<tr class="table-dark text-dark">						
-					<td><a href="menu.jsp?s_id=<%=vo.getId() %>"><%=vo.getName()%></a></td>							
-					<td><%=vo.getLoc()%></td>								
-					<td><%=vo.getTel()%></td>					
-					<td><%=vo.getTime()%></td>					
+					<td><%=vo.getName()%></a></td>					
+					<td><%=vo.getPrice()%></td>					
+									
 				</tr>						
 				<%						
 					}					
@@ -191,13 +191,13 @@
 				</div>						
 										
 				<!-- Modal body -->						
+				<br>						
+				<p id="m_menuname"></p>						
 				<div class="modal-body">						
 					<div class="starRev">					
-						<span class="starR on">1</span> 
-						<span class="starR on">2</span> 
-						<span class="starR on">3</span>
-					    <span class="starR on">4</span> 
-					    <span class="starR on">5</span>			
+						<span class="starR on">1</span> <span class="starR on">2</span> <span				
+							class="starR on">3</span> <span class="starR on">4</span> <span			
+							class="starR on">5</span>			
 										
 					</div>					
 				</div>						
@@ -205,13 +205,14 @@
 				<!-- Modal footer -->						
 				<div class="modal-footer">						
 					<button type="button" class="btn btn-primary" id="submit">평가하기</button>					
-					<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="modalClose()">취소</button>					
+					<button type="button" class="btn btn-danger" data-dismiss="modal"					
+						onclick="modalClose()">취소</button>				
 				</div>						
 										
 			</div>							
 		</div>								
 	</div>									
-<!-- 모달 끝-->										
+	<!-- 모달 끝-->									
 										
 </body>										
 </html>										
