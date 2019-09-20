@@ -10,6 +10,7 @@
 request.setCharacterEncoding("utf-8"); //한글처리
 String name = request.getParameter("name");	
 String price = request.getParameter("price");	
+String img = request.getParameter("img");	
 String s_id = request.getParameter("s_id");	
 
 
@@ -22,7 +23,7 @@ try {
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
 	
-	String sql = "INSERT INTO menu (name, price, s_id) VALUES (?, ?, ?)";
+	String sql = "INSERT INTO menu (name, price, img, s_id) VALUES (?, ?, ?, ?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, name);
 	pstmt.setString(2, price);

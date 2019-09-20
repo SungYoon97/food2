@@ -148,8 +148,9 @@
 												
 	}											
 	function modalClose() {											
-		location.reload();										
-		//$('#myModal').hide();										
+//		location.reload();
+		history.back();	
+//		$('#myModal').hide();										
 	}											
 </script>												
 												
