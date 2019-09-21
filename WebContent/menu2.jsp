@@ -114,7 +114,15 @@
 				menu : $('#m_menuname').text(),								
 				star : score								
 			}, function(data, status) {									
-				alert("Data: " + data + "\nStatus: " + status);								
+				//alert("Data: " + data + "\nStatus: " + status);
+				
+//				alert("넘어 오는 값: " + data);
+				if (data == 1) {
+					alert("감사합니다.");
+				} else {
+					alert("등록 실패. 관리자에게 문의 하세요.");
+				}
+				
 				modalClose();								
 			});									
 		});										

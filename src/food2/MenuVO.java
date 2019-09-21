@@ -5,17 +5,8 @@ public class MenuVO {
 	private String name;
 	private String price;
 	private String img;
-	
-	
-	public String getImg() {
-		return img;
-	}
-	public void setImg(String img) {
-		this.img = img;
-	}
-	private String s_id;
-	
-	
+	private String star_avg;
+	private int s_id;
 	public int getId() {
 		return id;
 	}
@@ -34,11 +25,26 @@ public class MenuVO {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public String getS_id() {
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
+	public String getStar_avg() {
+		return star_avg;
+	}
+	public void setStar_avg(String star_avg) {
+		this.star_avg = star_avg;
+	}
+	public int getS_id() {
 		return s_id;
 	}
-	public void setS_id(String s_id) {
+	public void setS_id(int s_id) {
 		this.s_id = s_id;
 	}
 	
-}
+	
+	
+	
+	
