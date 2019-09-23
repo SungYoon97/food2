@@ -31,11 +31,14 @@ try {
 	ResultSet rs = pstmt.executeQuery();
 	
 	out.println("<script>");
-	
 	if (rs.next()){
 		// 로그인 성공
+		session.setAttribute("email", email);
 		String name = rs.getString("name");
 		out.println("alert('" + name + "님 반갑습니다.');");
+		out.println("location.href='index.jsp'");
+		
+		
 	} else {
 		// 로그인 실패
 		out.println("alert('정신 차리라! 틀릿다! 똑바로 치라!');");

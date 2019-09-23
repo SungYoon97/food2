@@ -12,6 +12,7 @@
 
 <%
 
+
 //위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
