@@ -1,3 +1,4 @@
+<%@page import="food2.UserVO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.mysql.cj.protocol.Resultset"%>
 <%@page import="javax.naming.InitialContext"%>
@@ -24,17 +25,33 @@ try {
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
 	
-	String sql = "SELECT * FROM users WHERE email = ? AND pw = ?;";
+	String sql = "SELECT * FROM users WHERE email = ? AND pw = ? ";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, email);
 	pstmt.setString(2, password);
 	ResultSet rs = pstmt.executeQuery();
 	
+	UserVO vo = new UserVO();
+	
 	out.println("<script>");
 	if (rs.next()){
 		// 로그인 성공
-		session.setAttribute("email", email);
+		
+		String dbemail = rs.getString("email");
+		String pw = rs.getString("pw");
 		String name = rs.getString("name");
+		String phone = rs.getString("phone");
+		int grade = rs.getInt("grade");
+		int id = rs.getInt("id");
+		
+		vo.setEmail(dbemail);
+		vo.setPw(pw);
+		vo.setName(name);
+		vo.setPhone(phone);
+		vo.setGrade(grade);
+		vo.setId(id);
+		
+		session.setAttribute("user", vo);
 		out.println("alert('" + name + "님 반갑습니다.');");
 		out.println("location.href='index.jsp'");
 		

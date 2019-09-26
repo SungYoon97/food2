@@ -1,3 +1,4 @@
+<%@page import="food2.UserVO"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="javax.sql.DataSource"%>
 <%@page import="javax.naming.InitialContext"%>
@@ -13,6 +14,11 @@ String loc = request.getParameter("loc");
 String tel = request.getParameter("tel");	
 String time = request.getParameter("time");	
 
+UserVO vo = (UserVO)session.getAttribute("user");
+int u_id =  vo.getId();
+
+
+
 // 위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
@@ -22,12 +28,13 @@ try {
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
 	
-	String sql = "INSERT INTO food (name,  loc, tel, time) VALUES (?, ?, ?, ?)";
+	String sql = "INSERT INTO food (name,  loc, tel, time, u_id) VALUES (?, ?, ?, ?, ?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, name);
 	pstmt.setString(2, loc);
 	pstmt.setString(3, tel);
 	pstmt.setString(4, time);
+	pstmt.setInt(5, u_id);
 	pstmt.executeUpdate();
 	
 	connect = true;
