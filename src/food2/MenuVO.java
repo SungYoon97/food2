@@ -7,6 +7,7 @@ public class MenuVO {
 	private String img;
 	private String star_avg;
 	private int s_id;
+	
 	public int getId() {
 		return id;
 	}
@@ -43,6 +44,8 @@ public class MenuVO {
 	public void setS_id(int s_id) {
 		this.s_id = s_id;
 	}
+}
+	
 	
 	
 	

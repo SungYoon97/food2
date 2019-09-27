@@ -6,14 +6,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-request.setCharacterEncoding("utf-8"); //한글처리
+request.setCharacterEncoding("utf-8");   // 한글 처리
 String name = request.getParameter("name");	
 String price = request.getParameter("price");	
-String img = request.getParameter("img");	
+String img = request.getParameter("img");
 String s_id = request.getParameter("s_id");	
-
-
 // 위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
@@ -27,7 +24,9 @@ try {
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, name);
 	pstmt.setString(2, price);
+	pstmt.setString(3, img);
 	pstmt.setString(3, s_id);
+	pstmt.setString(4, s_id);
 	pstmt.executeUpdate();
 	
 	connect = true;
@@ -39,12 +38,9 @@ try {
 	
 if (connect == true) {	
 	System.out.println("연결되었습니다.");
-	out.println("입력 성공");
+	out.println(1);
 } else {	
 	System.out.println("연결실패.");
-	out.println("입력 실패");
+	out.println(0);
 }	
-
-
 %>
-

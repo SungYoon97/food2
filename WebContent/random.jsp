@@ -10,70 +10,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+
 <%
-
-
-//위 데이터를 데이터 베이스에 넣기
-Connection conn = null;			
-Boolean connect = false;
-
-ArrayList<FoodVO> list = new ArrayList<>();
+	String email = (String)session.getAttribute("email");
 	
-try {	
-	Context init = new InitialContext();
-	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
-	conn = ds.getConnection();
-	
-	String sql = "select * from food";
-	PreparedStatement pstmt = conn.prepareStatement(sql);
-	ResultSet rs = pstmt.executeQuery();
-	
-	while (rs.next()) {
-		FoodVO vo = new FoodVO();
-		vo.setName(rs.getString("name"));
-		vo.setMenu(rs.getString("menu"));
-		vo.setHome(rs.getString("home"));
-		vo.setPrice(rs.getString("price"));
-		vo.setLoc(rs.getString("loc"));
-		vo.setStar(rs.getString("star"));
-		vo.setTel(rs.getString("tel"));
-		vo.setTime(rs.getString("time"));
-		list.add(vo);
+	if (email == null) {
+		
+	} else {
+		
 	}
+	//위 데이터를 데이터 베이스에 넣기
+	Connection conn = null;			
+	Boolean connect = false;
 	
-	connect = true;
-	conn.close();
-} catch (Exception e) {	
-	connect = false;
-	e.printStackTrace();
-}	
+	ArrayList<FoodVO> list = new ArrayList<>();
+		
+	try {	
+		Context init = new InitialContext();
+		DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
+		conn = ds.getConnection();
+		
+		String sql = "select * from food";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			FoodVO vo = new FoodVO();
+			vo.setName(rs.getString("name"));
+			vo.setMenu(rs.getString("menu"));
+			vo.setHome(rs.getString("home"));
+			vo.setPrice(rs.getString("price"));
+			vo.setLoc(rs.getString("loc"));
+			vo.setStar(rs.getString("star"));
+			vo.setTel(rs.getString("tel"));
+			vo.setTime(rs.getString("time"));
+			list.add(vo);
+		}
+		
+		connect = true;
+		conn.close();
+	} catch (Exception e) {	
+		connect = false;
+		e.printStackTrace();
+	}	
+		
+	if (connect == true) {	
+		System.out.println("연결되었습니다.");
+	} else {	
+		System.out.println("연결실패.");
+	}
+	// 랜덤
+	Random rnd = new Random();
+	int rNum = rnd.nextInt(list.size());
+	System.out.println("list 총 갯수 : " + list.size());
+	System.out.println("랜덤값: " + rNum);
 	
-if (connect == true) {	
-	System.out.println("연결되었습니다.");
-} else {	
-	System.out.println("연결실패.");
-}	
-
-
-//랜덤
-
-Random rnd =new Random();
-int rNum = rnd.nextInt(list.size());
-System.out.println("list 총 갯수:" +list.size());
-System.out.println("랜덤값:" +rNum);
-
-
-FoodVO vo=list.get(rNum);
-System.out.println(vo.getMenu());
-
-
-
+	FoodVO vo = list.get(rNum);
+	System.out.println(vo.getMenu());
+	
+	// ArrayList<String> sList = new ArrayList<>();
+	// sList.add("링링");
+	// sList.add("매미");
+	// sList.add("태풍");
+	
+	// String str = sList.get(0);
 %>    
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>맛집 추천</title>
+  <title>맛집 리스트</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -85,7 +91,7 @@ System.out.println(vo.getMenu());
 <jsp:include page="top.jsp" flush="false"/>
 
 <div class="container">
-  <h2>맛집추천</h2>
+  <h2>맛집 추천</h2>
   <table class="table">
     <thead>
       <tr>
@@ -111,12 +117,10 @@ System.out.println(vo.getMenu());
         <td><%=vo.getTel() %></td>
         <td><%=vo.getTime() %></td>
       </tr>      
-
+  	
     </tbody>
   </table>
 </div>
 
 </body>
 </html>
-
-    

@@ -4,8 +4,7 @@
 
 <%
 	// 세션 체크(불러오기)
-UserVO vo = (UserVO) session.getAttribute("user");
-
+	UserVO vo = (UserVO)session.getAttribute("user");
 %> 
     
    
@@ -23,20 +22,16 @@ UserVO vo = (UserVO) session.getAttribute("user");
   
   <!-- Links -->
   <ul class="navbar-nav">
+   <% if (vo != null && vo.getGrade() > 9) { %>
     <li class="nav-item">
-       <% if (vo != null && vo.getGrade() > 9) { %>
       <a class="nav-link" href="store.jsp">맛집 추가</a>
-      <% } %>
     </li>
+   <% } %>
     <li class="nav-item">
       <a class="nav-link" href="p2.jsp">전체 맛집</a>
     </li>
     <li class="nav-item">
- 	<% if (vo == null) { %>
-      <a class="nav-link" href="login.jsp">맛집 추천</a>
-      <% } else { %>
       <a class="nav-link" href="random.jsp">맛집 추천</a>
-      <% } %>
     </li>
     <li class="nav-item">
     <% if (vo == null) { %>

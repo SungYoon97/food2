@@ -8,9 +8,7 @@ public class UserVO {
 	private String phone;
 	private int grade;
 	private int state;
-	
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -53,7 +51,6 @@ public class UserVO {
 	public void setState(int state) {
 		this.state = state;
 	}
-	
-	
-	
+
+
 }

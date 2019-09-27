@@ -7,18 +7,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-request.setCharacterEncoding("utf-8"); //한글처리
+request.setCharacterEncoding("utf-8");   // 한글 처리
 String name = request.getParameter("name");	
 String loc = request.getParameter("loc");	
 String tel = request.getParameter("tel");	
-String time = request.getParameter("time");	
-
+String time = request.getParameter("time");
 UserVO vo = (UserVO)session.getAttribute("user");
-int u_id =  vo.getId();
-
-
-
+int u_id = vo.getId();
 // 위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
@@ -28,7 +23,7 @@ try {
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
 	
-	String sql = "INSERT INTO food (name,  loc, tel, time, u_id) VALUES (?, ?, ?, ?, ?)";
+	String sql = "INSERT INTO store (name, loc, tel, time, u_id) VALUES (?, ?, ?, ?, ?)";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, name);
 	pstmt.setString(2, loc);
@@ -49,8 +44,6 @@ if (connect == true) {
 } else {	
 	System.out.println("연결실패.");
 }	
-
-
 %>
 
 <!DOCTYPE html>
