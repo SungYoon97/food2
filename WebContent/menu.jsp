@@ -1,3 +1,4 @@
+<%@page import="food2.UserVO"%>
 <%@page import="food2.MenuVO"%>
 <%@page import="food2.StoreVO"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,6 +18,7 @@ String s_id = request.getParameter("s_id");   // DB에서 메뉴를 불러 오�
 String s_name = request.getParameter("s_name");  // 가게이름
 // String ob = request.getParameter("orderby");  // 오름 차순
 // System.out.println(ob);
+UserVO uvo = (UserVO)session.getAttribute("user");
 //위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
 Boolean connect = false;
@@ -77,10 +79,29 @@ if (connect == true) {
 	  cursor: pointer;
 	}
 	.starR.on{background-position:0 0;}
+	
+	span.star-prototype, span.star-prototype > * {
+    height: 16px; 
+    background: url(http://i.imgur.com/YsyS5y8.png) 0 -16px repeat-x;
+    width: 80px;
+    display: inline-block;
+	}
+	 
+	span.star-prototype > * {
+	    background-position: 0 0;
+	    max-width:80px; 
+	}
+	
 </style>
 
 <script>
 $(document).ready(function(){
+	$.fn.generateStars = function() {
+	    return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*16));});
+	};
+	// 숫자 평점을 별로 변환하도록 호출하는 함수
+	$('.star-prototype').generateStars();
+	
 // 	$('#star').hide();    // 별점 확인 버튼 숨기기
 	var score = 5;	 // 별점 초기값
 	// 별 클릭 할 때 마다 별점이 바뀜
@@ -114,6 +135,7 @@ $(document).ready(function(){
 		    {
 		      name: $('#menu').val(),
 		      price: $('#price').val(),
+		      img: $('#img').val(),
 		      s_id: $('#s_id').val() 
 		    },
 		    function(data,status){
@@ -155,17 +177,31 @@ function modalClose() {
     </thead>
     <tbody>
     <%for (MenuVO vo : list) { %>
+    
       <tr class="table-dark text-dark">
         <td id="m_menuname"><a href="menu2.jsp?m_name=<%=vo.getName() %>"><%=vo.getName() %></a></td>
         <td><%=vo.getPrice() %></td>
-        <td><%=vo.getStar_avg() %></td>
-        <td>4.5</td>
+        <td>
+	        <span class="star-prototype">
+	        <% 
+		        String star_avg = vo.getStar_avg();
+		        if (star_avg.length() > 3) {
+		        	star_avg = star_avg.substring(0, 3);
+		        }
+	        %>
+	        <%=star_avg %>
+	        </span> 
+	        (<%=star_avg %>)
+        </td>
       </tr>      
   	<% } %>
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">메뉴 추가하기</button>
   
+  <% if (uvo != null) { %>
+  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">메뉴 추가하기</button>
+  
+  <% } %>
 </div>
 																	
 										
@@ -186,6 +222,9 @@ function modalClose() {
 			<input type="text" class="form-control" id="menu" placeholder="메뉴 이름 입력" name="menu">								
 			<label for="price">가격:</label>							
 			<input type="number" class="form-control" id="price" placeholder="가격 입력" name="price">
+			<label for="img">이미지 주소:</label>							
+			<input type="text" class="form-control" id="img" placeholder="메뉴 이미지 주소 넣기" name="img">
+			
 			<input type="hidden" id="s_id" name="s_id" value="<%=s_id%>">								
 				</div>						
 										
@@ -201,3 +240,5 @@ function modalClose() {
 <!-- 모달 끝-->										
 </body>
 </html>
+
+    

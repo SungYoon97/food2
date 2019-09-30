@@ -17,6 +17,8 @@ request.setCharacterEncoding("utf-8");  // 한글처리
 String m_name = request.getParameter("m_name");  // 메뉴이름
 // 리뷰를 쓰기 위해 사용자 정보를 받아와야함
 UserVO uvo = (UserVO)session.getAttribute("user");
+// 리뷰를 담을 그릇을 생성(리스트)
+ArrayList<String> reviewList = new ArrayList<>();
 // System.out.println(ob);
 //위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
@@ -27,6 +29,7 @@ try {
 	Context init = new InitialContext();
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
+	// 메뉴 정보를 불러 오는 쿼리
 	String sql = "SELECT * FROM menu WHERE name = ?";
 	
 	PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -38,6 +41,17 @@ try {
 		mvo.setName(rs.getString("name"));
 		mvo.setPrice(rs.getString("price"));
 		mvo.setImg(rs.getString("img"));
+	}
+	
+	// 리뷰를 불러 오는 쿼리
+	sql = "SELECT * FROM review WHERE m_id = ?";
+	
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setInt(1, mvo.getId());
+	rs = pstmt.executeQuery();
+	
+	while (rs.next()) {
+		reviewList.add(rs.getString("review"));
 	}
 	
 	connect = true;
@@ -98,8 +112,9 @@ $(document).ready(function(){
 	$("#star").click(function(){
 		    $.post("star_proc.jsp",
 		    {
-		      menu: $('#m_menuname').text(),
-		      star: score
+		      star: score,
+		      m_id: $('#m_id').val(),
+		      u_id: $('#u_id').val() 
 		    },
 		    function(data,status){
 		      //alert("Data: " + data + "\nStatus: " + status);
@@ -179,7 +194,11 @@ function send_login() {
 			  <span class="starR on">3</span>
 			  <span class="starR on">4</span>
 			  <span class="starR on">5</span>
-			  <button type="button" class="btn btn-danger" id="star">확인</button>
+			  <% if (uvo == null) { %>
+			  	<button type="button" class="btn btn-danger" onclick="send_login()">확인</button>
+			  <% } else { %>
+			  	<button type="button" class="btn btn-danger" id="star">확인</button>
+			  <% } %>
 			</div> 
         </td>
         <td>
@@ -196,12 +215,17 @@ function send_login() {
       </tr>      
     </tbody>
   </table>
-  	<% if (mvo.getImg() == null) { %>
-  		<p class="text-center"> 이미지가 없습니다. </p>
+  
+  	<% if (mvo.getImg() == null || mvo.getImg().equals("") ) { %>
+  		<p class="text-left"> 이미지가 없습니다. </p> 
   	<% } else { %>
 		<img src="<%=mvo.getImg() %>" width="320" height="240" style="float: left" class="rounded mx-auto d-block">		
 	<%} %>		
-	<p class="mx-auto">리뷰 리스트가 밑으로 쫙 ~~</p>		
+	<h4>리뷰 리스트가 밑으로 쫙 ~~</h4>		
+	
+	<% for (String rStr : reviewList) { %>
+		<p class="mx-auto"><%=rStr %></p>
+	<% } %>
 
  <!-- The Modal 시작 -->
   <div class="modal" id="myModal">
